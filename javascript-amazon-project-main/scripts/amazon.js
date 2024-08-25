@@ -1,4 +1,4 @@
-
+import{cart} from './cart.js';
 let HTMl ='';
 
 products.forEach((value, index)=>{

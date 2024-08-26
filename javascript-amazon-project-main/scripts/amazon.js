@@ -1,4 +1,5 @@
 import{cart} from './cart.js';
+import{products } from '../data/products.js';
 let HTMl ='';
 
 products.forEach((value, index)=>{
@@ -56,6 +57,43 @@ products.forEach((value, index)=>{
               </button>
             </div>`;
 });
+function addtocart(productId,quantity)
+{
+  let matchingItem;
+      cart.forEach((item) => {
+          if (productId === item.productId) {
+              matchingItem = item;
+          }
+      });
+
+      if (matchingItem) {
+          matchingItem.quantity += quantity; 
+      } else {
+          cart.push({
+              productId: productId,
+              quantity: quantity
+          });
+      }
+}
+function add_display(hein,message)
+  {
+    if(hein)
+      {
+        clearTimeout(hein);
+      }
+      const timeoutid = setTimeout(()=>{
+        message.classList.remove('highlight')
+      },2000);
+  }
+
+  function totalquantitycart()
+  {
+    let cartQuantity = 0;
+      cart.forEach((item) => {
+          cartQuantity += item.quantity;
+      });
+      document.querySelector(".cart-quantity").innerHTML = cartQuantity;
+  }
 document.querySelector('.products-grid').innerHTML= HTMl;
 
 const addedmessagestimeoutid ={}
@@ -73,35 +111,13 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       message.classList.add("highlight");
       
       const hein =addedmessagestimeoutid[productId];
-      if(hein)
-      {
-        clearTimeout(hein);
-      }
-      const timeoutid = setTimeout(()=>{
-        message.classList.remove('highlight')
-      },2000);
-      let matchingItem;
-      cart.forEach((item) => {
-          if (productId === item.productId) {
-              matchingItem = item;
-          }
-      });
+      
+      
+      addtocart(productId,quantity);
+      add_display(hein,message);
+      totalquantitycart();
 
-      if (matchingItem) {
-          matchingItem.quantity += quantity; 
-      } else {
-          cart.push({
-              productId: productId,
-              quantity: quantity
-          });
-      }
-
-      let cartQuantity = 0;
-      cart.forEach((item) => {
-          cartQuantity += item.quantity;
-      });
-
-      document.querySelector(".cart-quantity").innerHTML = cartQuantity;
+      
       console.log(cart);
   });
 });

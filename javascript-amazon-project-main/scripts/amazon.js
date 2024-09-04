@@ -117,7 +117,7 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       addtocart(productId,quantity);
       add_display(hein,message);
       totalquantitycart();
-
+    
       
       console.log(cart);
   });

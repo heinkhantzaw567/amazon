@@ -37,7 +37,7 @@ cart.forEach((item)=>{
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary js-delete-link data-product-id ="${matchingItem.id}"">
+                  <span class="delete-quantity-link link-primary js-delete-link" data-product-id ="${matchingItem.id}">
                     Delete
                   </span>
                 </div>
@@ -50,7 +50,7 @@ cart.forEach((item)=>{
                 <div class="delivery-option">
                   <input type="radio" checked
                     class="delivery-option-input"
-                    name="delivery-option-${matchingitem.id}">
+                    name="delivery-option-${matchingItem.id}">
                   <div>
                     <div class="delivery-option-date">
                       Tuesday, June 21
@@ -63,7 +63,7 @@ cart.forEach((item)=>{
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-${matchingitem.id}">
+                    name="delivery-option-${matchingItem.id}">
                   <div>
                     <div class="delivery-option-date">
                       Wednesday, June 15
@@ -76,7 +76,7 @@ cart.forEach((item)=>{
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-${matchingitem.id}">
+                    name="delivery-option-${matchingItem.id}">
                   <div>
                     <div class="delivery-option-date">
                       Monday, June 13
@@ -90,7 +90,8 @@ cart.forEach((item)=>{
             </div>
           </div>`;
 });
-console.log(Html);
+
+
 document.querySelector(".order-summary").innerHTML =Html;
 
 document.querySelectorAll(".js-delete-link").forEach((link)=>
@@ -101,7 +102,9 @@ document.querySelectorAll(".js-delete-link").forEach((link)=>
     removecart(productId);
 
     const container =document.querySelector(`.js-cart-item-container-${productId}`);
-    container.remove();
+     container.remove();
+    console.log(container)
+    console.log(cart)
     
   });
 });

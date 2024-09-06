@@ -1,4 +1,4 @@
-import{cart} from './cart.js';
+import{cart,addtocart,removecart} from './cart.js';
 import{products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 let HTMl ='';
@@ -58,24 +58,7 @@ products.forEach((value, index)=>{
               </button>
             </div>`;
 });
-function addtocart(productId,quantity)
-{
-  let matchingItem;
-      cart.forEach((item) => {
-          if (productId === item.productId) {
-              matchingItem = item;
-          }
-      });
 
-      if (matchingItem) {
-          matchingItem.quantity += quantity; 
-      } else {
-          cart.push({
-              productId: productId,
-              quantity: quantity
-          });
-      }
-}
 function add_display(hein,message)
   {
     if(hein)

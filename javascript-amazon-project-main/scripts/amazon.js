@@ -1,4 +1,4 @@
-import{cart,addtocart,removecart} from './cart.js';
+import{cart,addtocart,totalquantity} from './cart.js';
 import{products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 let HTMl ='';
@@ -70,14 +70,7 @@ function add_display(hein,message)
       },2000);
   }
 
-  function totalquantitycart()
-  {
-    let cartQuantity = 0;
-      cart.forEach((item) => {
-          cartQuantity += item.quantity;
-      });
-      document.querySelector(".cart-quantity").innerHTML = cartQuantity;
-  }
+ 
 document.querySelector('.products-grid').innerHTML= HTMl;
 
 const addedmessagestimeoutid ={}
@@ -99,9 +92,10 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       
       addtocart(productId,quantity);
       add_display(hein,message);
-      totalquantitycart();
-    
       
+      document.querySelector(".cart-quantity").innerHTML = totalquantity();
+      console.log(totalquantity());
       console.log(cart);
   });
 });
+document.querySelector(".cart-quantity").innerHTML = totalquantity();

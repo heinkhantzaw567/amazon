@@ -34,8 +34,11 @@ cart.forEach((item)=>{
                   <span>
                     Quantity: <span class="quantity-label">${item.quantity}</span>
                   </span>
-                  <span class="update-quantity-link link-primary">
+                  <span class="update-quantity-link link-primary" data-product-id ="${matchingItem.id}">
                     Update
+                    
+                  </span>
+                  <span class ="form-${matchingItem.id}">
                   </span>
                   <span class="delete-quantity-link link-primary js-delete-link" data-product-id ="${matchingItem.id}">
                     Delete
@@ -117,3 +120,16 @@ function checkingout()
 document.querySelector('.checkout-header-middle-section').innerHTML =checkout;
 }
 checkingout();
+
+let Updateforn =`<input class ="quantity-input" type ="number">
+            <span class ="save-quantity-link link-primary">Save</span>`;
+
+document.querySelectorAll(`.update-quantity-link`).forEach((button)=>
+{
+  button.addEventListener("click",()=>
+  {
+    const productid = button.dataset.productId;
+    document.querySelector(`.form-${productid}`).innerHTML =Updateforn;
+    const container = document.querySelector(`.js-cart-item-container-${productid}`);
+  });
+});

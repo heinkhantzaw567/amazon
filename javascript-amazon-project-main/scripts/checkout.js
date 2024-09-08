@@ -139,19 +139,30 @@ document.querySelectorAll(`.update-quantity-link`).forEach((button)=>
   });
 }); 
 
-document.querySelectorAll(`.save-quantity-link`).forEach((link) =>
-{
-  link.addEventListener('click', ()=>
-  {
-    const productid = link.dataset.productId;
-    
-   
-    const container = document.querySelector(`.js-cart-item-container-${productid}`);
-    let input = Number(document.querySelector('.quantity-input').value);
-    changequantity(input,productid);
+function handleQuantityChange(link) {
+  const productid = link.dataset.productId;
+  const container = document.querySelector(`.js-cart-item-container-${productid}`);
+  const input = Number(document.querySelector('.quantity-input').value);
+  action(input, productid, container);
+}
+
+document.querySelectorAll('.save-quantity-link').forEach((link) => {
+  link.addEventListener('click', () => handleQuantityChange(link));
+  
+  addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      handleQuantityChange(link);
+    }
+  });
+});
+
+function action(input, productid, container) {
+  if (input > 0 && input < 10000) {
+    changequantity(input, productid);
     document.querySelector(`.js-quantity-label-${productid}`).innerHTML = input;
     container.classList.remove('is-editing-quantity');
     checkingout();
+  }
+}
 
-  });
-});
+

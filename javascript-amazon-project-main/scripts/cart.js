@@ -54,3 +54,16 @@ export function totalquantity()
       });
     return cartQuantity;
 }
+
+export function changequantity(input,id)
+{
+    cart.forEach((item)=>
+    {
+        if (item.productId === id)
+        {
+            item.quantity =input
+        }
+    });
+    saveToStorage();
+}
+

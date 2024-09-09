@@ -1,6 +1,10 @@
 import {cart,removecart,totalquantity,changequantity} from './cart.js';
 import { products } from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
+import { formatCurrency,formatdate} from './utils/money.js';
+let today =dayjs();
+let freedeliverydate = dayjs().add(7,'days');
+let threedate = dayjs().add(5,'days');
+let onedate = dayjs().add(1,'days');
 let Html= '';
 cart.forEach((item)=>{
     const productId = item.productId;
@@ -16,7 +20,7 @@ cart.forEach((item)=>{
     
     Html +=`<div class="cart-item-container js-cart-item-container-${matchingItem.id}">
             <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+              Delivery date: ${formatdate(freedeliverydate)}
             </div>
 
             <div class="cart-item-details-grid">
@@ -37,7 +41,7 @@ cart.forEach((item)=>{
                   <span class="update-quantity-link link-primary" data-product-id ="${matchingItem.id}">
                     Update
                     </span>
-                    <input class ="quantity-input" >
+                    <input class ="quantity-input js-quantity-input-${matchingItem.id}" >
                    <span class ="save-quantity-link link-primary" data-product-id ="${matchingItem.id}">Save</span>
              
                   <span class ="form-${matchingItem.id}">
@@ -58,7 +62,7 @@ cart.forEach((item)=>{
                     name="delivery-option-${matchingItem.id}">
                   <div>
                     <div class="delivery-option-date">
-                      Tuesday, June 21
+                      ${formatdate(freedeliverydate)}
                     </div>
                     <div class="delivery-option-price">
                       FREE Shipping
@@ -71,7 +75,7 @@ cart.forEach((item)=>{
                     name="delivery-option-${matchingItem.id}">
                   <div>
                     <div class="delivery-option-date">
-                      Wednesday, June 15
+                    ${formatdate(threedate)}
                     </div>
                     <div class="delivery-option-price">
                       $4.99 - Shipping
@@ -84,7 +88,7 @@ cart.forEach((item)=>{
                     name="delivery-option-${matchingItem.id}">
                   <div>
                     <div class="delivery-option-date">
-                      Monday, June 13
+                    ${formatdate(onedate)}
                     </div>
                     <div class="delivery-option-price">
                       $9.99 - Shipping
@@ -114,7 +118,9 @@ document.querySelectorAll(".js-delete-link").forEach((link)=>
 });
 
 
+
 function checkingout()
+
 {
   let checkout =`Checkout (<a class="return-to-home-link"
   href="amazon.html">${totalquantity()} items</a>)`
@@ -142,14 +148,23 @@ document.querySelectorAll(`.update-quantity-link`).forEach((button)=>
 function handleQuantityChange(link) {
   const productid = link.dataset.productId;
   const container = document.querySelector(`.js-cart-item-container-${productid}`);
-  const input = Number(document.querySelector('.quantity-input').value);
+  const input = Number(document.querySelector(`.js-quantity-input-${productid}`).value);
   action(input, productid, container);
 }
 
 document.querySelectorAll('.save-quantity-link').forEach((link) => {
+  const productid = link.dataset.productId;
+  const container = document.querySelector(`.js-cart-item-container-${productid}`);
+  const inputField = document.querySelector(`.js-quantity-input-${productid}`);
+  
+  // Initial action call if needed
+  action(Number(inputField.value), productid, container);
+
+  // Click event listener
   link.addEventListener('click', () => handleQuantityChange(link));
   
-  addEventListener('keydown', (event) => {
+  // Enter key event listener
+  inputField.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       handleQuantityChange(link);
     }
@@ -164,5 +179,4 @@ function action(input, productid, container) {
     checkingout();
   }
 }
-
 

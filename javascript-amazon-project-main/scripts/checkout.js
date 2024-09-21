@@ -1,10 +1,9 @@
 import {cart,removecart,totalquantity,changequantity} from './cart.js';
 import { products } from '../data/products.js';
-import { formatCurrency,formatdate} from './utils/money.js';
+import { adddate, formatCurrency,formatdate} from './utils/money.js';
+import { deliveryOptions } from './devliveryoption.js';
 let today =dayjs();
-let freedeliverydate = dayjs().add(7,'days');
-let threedate = dayjs().add(5,'days');
-let onedate = dayjs().add(1,'days');
+
 let Html= '';
 cart.forEach((item)=>{
     const productId = item.productId;
@@ -17,10 +16,11 @@ cart.forEach((item)=>{
         }
             
     });
-    
+    console.log(item)
+    console.log(deliveryHTml(matchingItem,item))
     Html +=`<div class="cart-item-container js-cart-item-container-${matchingItem.id}">
             <div class="delivery-date">
-              Delivery date: ${formatdate(freedeliverydate)}
+              Delivery date: 
             </div>
 
             <div class="cart-item-details-grid">
@@ -56,45 +56,10 @@ cart.forEach((item)=>{
                 <div class="delivery-options-title">
                   Choose a delivery option:
                 </div>
-                <div class="delivery-option">
-                  <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingItem.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      ${formatdate(freedeliverydate)}
-                    </div>
-                    <div class="delivery-option-price">
-                      FREE Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingItem.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                    ${formatdate(threedate)}
-                    </div>
-                    <div class="delivery-option-price">
-                      $4.99 - Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingItem.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                    ${formatdate(onedate)}
-                    </div>
-                    <div class="delivery-option-price">
-                      $9.99 - Shipping
-                    </div>
-                  </div>
-                </div>
+                ${deliveryHTml(matchingItem,item)}
+                
+                               
+                
               </div>
             </div>
           </div>`;
@@ -180,3 +145,34 @@ function action(input, productid, container) {
   }
 }
 
+function deliveryHTml(matchingItem,item)
+{
+  let Html =``;
+  deliveryOptions.forEach((options) =>
+  {
+    
+    
+    let formattedPrice = options.priceCent === 0 ? "Free" : formatCurrency(options.priceCent);
+    
+    
+    console.log(options.id);
+    console.log(item.deliveryId)
+    const isChecked = options.id === item.deliveryId ;
+    console.log(isChecked)
+    Html +=`<div class="delivery-option">
+                    <input type="radio"
+                      ${isChecked ? 'checked' :''}
+                      class="delivery-option-input"
+                      name="delivery-option-${matchingItem.id}">
+                    <div>
+                      <div class="delivery-option-date">
+                      ${formatdate(adddate(today,options.days))}
+                      </div>
+                      <div class="delivery-option-price">
+                        ${formattedPrice} - Shipping
+                      </div>
+                    </div>
+                  </div>`
+  });
+  return Html
+}

@@ -14,13 +14,21 @@ cart.forEach((item)=>{
         {
             matchingItem= product;
         }
-            
+        
     });
-    console.log(item)
-    console.log(deliveryHTml(matchingItem,item))
+    
+    const deliveryOptionsid = item.deliveryId;
+    let deliveryOption;
+    deliveryOptions.forEach ((options) =>
+    {
+      if (options.id === deliveryOptionsid)
+      {
+        deliveryOption =options
+      }
+    })
     Html +=`<div class="cart-item-container js-cart-item-container-${matchingItem.id}">
             <div class="delivery-date">
-              Delivery date: 
+              Delivery date: ${formatdate (adddate (today, deliveryOption.days))}
             </div>
 
             <div class="cart-item-details-grid">

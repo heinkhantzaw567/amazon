@@ -2,7 +2,6 @@ import{cart,addtocart,totalquantity} from './cart.js';
 import{products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 let HTMl ='';
-
 products.forEach((value, index)=>{
     HTMl +=
     `<div class="product-container">

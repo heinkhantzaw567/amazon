@@ -70,3 +70,14 @@ export function changequantity(input,id)
     saveToStorage();
 }
 
+export function updateDeliveryOption(productid, deliveryOptionid)
+{
+    let matchingItem;
+    cart.forEach((items) =>
+    {
+        if (productid === items.productId)
+            matchingItem= items;
+    })
+    matchingItem.deliveryId=deliveryOptionid
+    saveToStorage();
+}

@@ -1,7 +1,8 @@
 import {cart,removecart,totalquantity,changequantity, updateDeliveryOption} from '../cart.js';
 import { products } from '../../data/products.js';
-import { adddate, formatCurrency,formatdate} from '../utils/money.js';
+import { adddate, formatCurrency,formatdate, skipweekend} from '../utils/money.js';
 import { deliveryOptions } from '../devliveryoption.js';
+import { renderPaymentSummary } from './paymentcheckout.js';
 let today =dayjs();
 
 export function renderOrderSummary()
@@ -84,11 +85,8 @@ document.querySelectorAll(".js-delete-link").forEach((link)=>
   {
     const productId =link.dataset.productId;
     removecart(productId);
-
-    const container =document.querySelector(`.js-cart-item-container-${productId}`);
-     container.remove();
-    
-    checkingout();
+    renderOrderSummary();
+    renderPaymentSummary();
   });
 });
 
@@ -125,6 +123,7 @@ function handleQuantityChange(link) {
   const container = document.querySelector(`.js-cart-item-container-${productid}`);
   const input = Number(document.querySelector(`.js-quantity-input-${productid}`).value);
   action(input, productid, container);
+  renderPaymentSummary();
 }
 
 document.querySelectorAll('.save-quantity-link').forEach((link) => {
@@ -142,6 +141,7 @@ document.querySelectorAll('.save-quantity-link').forEach((link) => {
   inputField.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       handleQuantityChange(link);
+      renderPaymentSummary()
     }
   });
 });
@@ -151,7 +151,9 @@ function action(input, productid, container) {
     changequantity(input, productid);
     document.querySelector(`.js-quantity-label-${productid}`).innerHTML = input;
     container.classList.remove('is-editing-quantity');
-    checkingout();
+    
+    renderOrderSummary();
+    renderPaymentSummary();
   }
 }
 
@@ -162,13 +164,9 @@ function deliveryHTml(matchingItem,item)
   {
     
     
-    let formattedPrice = options.priceCent === 0 ? "Free" : formatCurrency(options.priceCent);
-    
-    
-    console.log(options.id);
-    console.log(item.deliveryId)
+    let formattedPrice = options.priceCent === 0 ? "Free" : "$"+formatCurrency(options.priceCent);
     const isChecked = options.id === item.deliveryId ;
-    console.log(isChecked)
+    let days = skipweekend(options.days,today)
     Html +=`<div class="delivery-option js-delivery-option"
            data-product-id =${matchingItem.id}
            data-delivery-option-id =${options.id}>
@@ -178,10 +176,10 @@ function deliveryHTml(matchingItem,item)
                       name="delivery-option-${matchingItem.id}">
                     <div>
                       <div class="delivery-option-date">
-                      ${formatdate(adddate(today,options.days))}
+                      ${formatdate(adddate(today,days))}
                       </div>
                       <div class="delivery-option-price">
-                        ${formattedPrice} - Shipping
+                         ${formattedPrice} - Shipping
                       </div>
                     </div>
                   </div>`
@@ -192,10 +190,11 @@ document.querySelectorAll(`.js-delivery-option`).forEach((element) =>
 {
   element.addEventListener( 'click' ,() =>
   {
-    console.log(element.dataset)
+    
     const {productId, deliveryOptionId}=element.dataset
     updateDeliveryOption(productId,deliveryOptionId);
     renderOrderSummary();
+    renderPaymentSummary();
   })
 })
 }

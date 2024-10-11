@@ -1,0 +1,60 @@
+import { renderOrderSummary } from "../../scripts/checkout/ordersummary.js";
+import { loadfromStorage,cart } from "../../scripts/cart.js";
+
+describe('test suit: renderOrderSummary', ()=>
+{
+  const productId2 = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
+  const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6';
+  beforeEach(()=>
+  {
+    
+    document.querySelector('.js-test-container').innerHTML = `
+      <div class="js-order-summary">
+      </div>
+      <div class="js-payment-summary"></div>`;
+    spyOn(localStorage, 'setItem');
+    spyOn(localStorage, 'getItem').and.callFake(() => {
+      return JSON.stringify([{
+          productId: productId1,
+          quantity: 2,
+          deliveryId :'1'
+      
+        }, {
+          productId: productId2,
+          quantity: 1,
+          deliveryId:'2'
+        }]);
+    });
+    loadfromStorage();
+    renderOrderSummary();
+  });
+  afterEach(()=>
+  {
+    document.querySelector('.order-summary').innerHTML ='';
+  })
+    it('adds an exisiting,product to cart', ()=>
+        {
+          
+          expect(document.querySelectorAll('.js-cart-item-container').length).toEqual(2);
+          expect(document.querySelector(`.js-product-quantity-${productId1}`).innerText).toContain('Quantity: 2')
+          expect(document.querySelector(`.js-product-quantity-${productId2}`).innerText).toContain('Quantity: 1')
+        
+          
+        });
+
+        it('removes a product',()=>
+        {
+          
+          document.querySelector(`.js-delete-link-${productId1}`).click();
+          expect(document.querySelectorAll('.js-cart-item-container').length).toEqual(1);
+          expect(
+            document.querySelector(`.js-cart-item-container-${productId1}`)).toEqual(null);
+            expect(
+              document.querySelector(`.js-cart-item-container-${productId2}`)).not.toEqual(null);
+            expect(
+              document.querySelector(`.js-cart-item-container-${productId2}`)).not.toEqual(null);
+            expect(cart.length
+            ).toEqual(1);
+            expect(cart[0].productId).toEqual(productId2);
+        });
+    });

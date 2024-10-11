@@ -3,12 +3,14 @@ import { products } from '../../data/products.js';
 import { adddate, formatCurrency,formatdate, skipweekend} from '../utils/money.js';
 import { deliveryOptions } from '../devliveryoption.js';
 import { renderPaymentSummary } from './paymentcheckout.js';
-let today =dayjs();
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+
 
 export function renderOrderSummary()
 {
+  let today =dayjs();
   let Html= '';
-cart.forEach((item)=>{
+  cart.forEach((item)=>{
     const productId = item.productId;
     let matchingItem;
     products.forEach((product)=>
@@ -29,7 +31,7 @@ cart.forEach((item)=>{
         deliveryOption =options
       }
     })
-    Html +=`<div class="cart-item-container js-cart-item-container-${matchingItem.id}">
+    Html +=`<div class="cart-item-container  js-cart-item-container js-cart-item-container-${matchingItem.id}">
             <div class="delivery-date">
               Delivery date: ${formatdate (adddate (today, deliveryOption.days))}
             </div>
@@ -43,9 +45,10 @@ cart.forEach((item)=>{
                   ${matchingItem.name}
                 </div>
                 <div class="product-price">
-                  $${formatCurrency(matchingItem.priceCents)};
+                  $${formatCurrency(matchingItem.priceCents)}
                 </div>
-                <div class="product-quantity">
+                <div class="product-quantity 
+                  js-product-quantity-${matchingItem.id}">
                   <span>
                     Quantity: <span class="quantity-label js-quantity-label-${matchingItem.id}">${item.quantity}</span>
                   </span>
@@ -57,7 +60,8 @@ cart.forEach((item)=>{
              
                   <span class ="form-${matchingItem.id}">
                   
-                  <span class="delete-quantity-link link-primary js-delete-link" data-product-id ="${matchingItem.id}">
+                  <span class="delete-quantity-link link-primary js-delete-link 
+                  js-delete-link-${matchingItem.id}" data-product-id ="${matchingItem.id}">
                     Delete
                   </span>
                 </div>
@@ -76,8 +80,8 @@ cart.forEach((item)=>{
           </div>`;
 });
 
-
 document.querySelector(".order-summary").innerHTML =Html;
+console.log(document.querySelector(".order-summary").innerHTML)
 
 document.querySelectorAll(".js-delete-link").forEach((link)=>
 {
@@ -92,15 +96,15 @@ document.querySelectorAll(".js-delete-link").forEach((link)=>
 
 
 
-function checkingout()
+// function checkingout()
 
-{
-  let checkout =`Checkout (<a class="return-to-home-link"
-  href="amazon.html">${totalquantity()} items</a>)`
+// {
+//   let checkout =`Checkout (<a class="return-to-home-link"
+//   href="amazon.html">${totalquantity()} items</a>)`
 
-document.querySelector('.checkout-header-middle-section').innerHTML =checkout;
-}
-checkingout();
+// document.querySelector('.checkout-header-middle-section').innerHTML =checkout;
+// }
+// checkingout();
 
 let Updateforn =``;
 
@@ -198,4 +202,8 @@ document.querySelectorAll(`.js-delivery-option`).forEach((element) =>
   })
 })
 }
-renderOrderSummary();
+
+document.addEventListener("DOMContentLoaded", function() {
+  renderOrderSummary();
+  console.log(document.querySelector(".order-summary"));
+});

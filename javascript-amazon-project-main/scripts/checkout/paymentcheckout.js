@@ -8,7 +8,7 @@ export function renderPaymentSummary()
     let tax =beforetax* 0.10;
     let after=formatCurrency(beforetax+tax );
     
-    let html
+    let html ='';
     html=`<div class="payment-summary-title">
             Order Summary
           </div>

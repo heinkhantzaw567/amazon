@@ -93,8 +93,8 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       add_display(hein,message);
       
       document.querySelector(".cart-quantity").innerHTML = totalquantity();
-      console.log(totalquantity());
-      console.log(cart);
+      
+      
   });
 });
 document.querySelector(".cart-quantity").innerHTML = totalquantity();

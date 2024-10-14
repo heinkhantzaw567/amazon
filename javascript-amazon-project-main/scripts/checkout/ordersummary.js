@@ -41,10 +41,12 @@ export function renderOrderSummary()
                 src="${matchingItem.image}">
 
               <div class="cart-item-details">
-                <div class="product-name">
+                <div class="product-name 
+                 product-name-${matchingItem.id}">
                   ${matchingItem.name}
                 </div>
-                <div class="product-price">
+                <div class="product-price 
+                product-price-${matchingItem.id}">
                   $${formatCurrency(matchingItem.priceCents)}
                 </div>
                 <div class="product-quantity 
@@ -81,7 +83,7 @@ export function renderOrderSummary()
 });
 
 document.querySelector(".order-summary").innerHTML =Html;
-console.log(document.querySelector(".order-summary").innerHTML)
+
 
 document.querySelectorAll(".js-delete-link").forEach((link)=>
 {
@@ -96,15 +98,15 @@ document.querySelectorAll(".js-delete-link").forEach((link)=>
 
 
 
-// function checkingout()
+function checkingout()
 
-// {
-//   let checkout =`Checkout (<a class="return-to-home-link"
-//   href="amazon.html">${totalquantity()} items</a>)`
+{
+  let checkout =`Checkout (<a class="return-to-home-link"
+  href="amazon.html">${totalquantity()} items</a>)`
 
-// document.querySelector('.checkout-header-middle-section').innerHTML =checkout;
-// }
-// checkingout();
+document.querySelector('.checkout-header-middle-section').innerHTML =checkout;
+}
+checkingout();
 
 let Updateforn =``;
 
@@ -203,7 +205,4 @@ document.querySelectorAll(`.js-delivery-option`).forEach((element) =>
 })
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  renderOrderSummary();
-  console.log(document.querySelector(".order-summary"));
-});
+

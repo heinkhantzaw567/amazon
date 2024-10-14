@@ -1,5 +1,5 @@
 import { renderOrderSummary } from "../../scripts/checkout/ordersummary.js";
-import { loadfromStorage,cart } from "../../scripts/cart.js";
+import { loadfromStorage,cart,productname } from "../../scripts/cart.js";
 
 describe('test suit: renderOrderSummary', ()=>
 {
@@ -10,6 +10,8 @@ describe('test suit: renderOrderSummary', ()=>
     
     document.querySelector('.js-test-container').innerHTML = `
       <div class="js-order-summary">
+      </div>
+      <div class ="checkout-header-middle-section">
       </div>
       <div class="js-payment-summary"></div>`;
     spyOn(localStorage, 'setItem');
@@ -31,10 +33,19 @@ describe('test suit: renderOrderSummary', ()=>
   afterEach(()=>
   {
     document.querySelector('.order-summary').innerHTML ='';
+    document.querySelector('.js-test-container').innerHTML ='';
   })
     it('adds an exisiting,product to cart', ()=>
         {
           
+          expect(document.querySelector(`.product-name-${productId1}`).innerHTML.trim())
+          .toEqual('Black and Gray Athletic Cotton Socks - 6 Pairs');
+          expect(document.querySelector(`.product-name-${productId2}`).innerHTML.trim())
+          .toEqual('Intermediate Size Basketball');
+          expect(document.querySelector(`.product-price-${productId1}`).innerHTML.trim())
+          .toEqual('$10.90');
+          expect(document.querySelector(`.product-price-${productId2}`).innerHTML.trim())
+          .toEqual('$20.95');
           expect(document.querySelectorAll('.js-cart-item-container').length).toEqual(2);
           expect(document.querySelector(`.js-product-quantity-${productId1}`).innerText).toContain('Quantity: 2')
           expect(document.querySelector(`.js-product-quantity-${productId2}`).innerText).toContain('Quantity: 1')

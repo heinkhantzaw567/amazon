@@ -1,5 +1,9 @@
 export function formatCurrency(price)
 {
+    if(price <0)
+    {
+        price *=-1
+    }
     return (Math.round(price)/100).toFixed(2);
 }
 

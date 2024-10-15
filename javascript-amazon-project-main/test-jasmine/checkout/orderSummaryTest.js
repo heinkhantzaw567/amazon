@@ -68,4 +68,15 @@ describe('test suit: renderOrderSummary', ()=>
             ).toEqual(1);
             expect(cart[0].productId).toEqual(productId2);
         });
+        it('update the cart',()=>
+        {
+          document.querySelector(`.delivery-option-input-${productId1}-${3}`).click();
+          expect(cart[0].deliveryId).toEqual('3');
+          expect(document.querySelector(`.delivery-option-input-${productId1}-${3}`).checked).toBe(true)
+          expect(cart.length).toEqual(2);
+          expect(document.querySelector(`.payment-summary-money-shipping`).innerHTML).toEqual('$14.98');
+          expect(document.querySelector(`.payment-summary-money-total`).innerHTML).toEqual('$63.50');
+          
+        });
+        
     });

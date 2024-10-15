@@ -84,13 +84,22 @@ export function changequantity(input,id)
 export function updateDeliveryOption(productid, deliveryOptionid)
 {
     let matchingItem;
-    cart.forEach((items) =>
+    if (deliveryOptionid === '1' | deliveryOptionid === '2'| deliveryOptionid === '3')
     {
-        if (productid === items.productId)
-            matchingItem= items;
-    })
-    matchingItem.deliveryId=deliveryOptionid
-    saveToStorage();
+        cart.forEach((items) =>
+            {
+                if (productid === items.productId)
+                {
+                    matchingItem= items;
+                    matchingItem.deliveryId=deliveryOptionid
+                    saveToStorage();
+                }
+                   
+            
+            })
+    }
+    
+    
 }
 export function productname(id)
 {

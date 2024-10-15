@@ -47,14 +47,15 @@ export function renderOrderSummary()
                 </div>
                 <div class="product-price 
                 product-price-${matchingItem.id}">
-                  $${formatCurrency(matchingItem.priceCents)}
+                  ${matchingItem.getPrice()}
                 </div>
                 <div class="product-quantity 
                   js-product-quantity-${matchingItem.id}">
                   <span>
                     Quantity: <span class="quantity-label js-quantity-label-${matchingItem.id}">${item.quantity}</span>
                   </span>
-                  <span class="update-quantity-link link-primary" data-product-id ="${matchingItem.id}">
+                  <span class="update-quantity-link link-primary 
+                  update-quantity-link-${matchingItem.id}" data-product-id ="${matchingItem.id}">
                     Update
                     </span>
                     <input class ="quantity-input js-quantity-input-${matchingItem.id}" >
@@ -173,12 +174,14 @@ function deliveryHTml(matchingItem,item)
     let formattedPrice = options.priceCent === 0 ? "Free" : "$"+formatCurrency(options.priceCent);
     const isChecked = options.id === item.deliveryId ;
     let days = skipweekend(options.days,today)
-    Html +=`<div class="delivery-option js-delivery-option"
+    Html +=`<div class="delivery-option js-delivery-option
+           js-delivery-option-${matchingItem.id}"
            data-product-id =${matchingItem.id}
            data-delivery-option-id =${options.id}>
                     <input type="radio"
                       ${isChecked ? 'checked' :''}
-                      class="delivery-option-input"
+                      class="delivery-option-input
+                            delivery-option-input-${matchingItem.id}-${options.id}"
                       name="delivery-option-${matchingItem.id}">
                     <div>
                       <div class="delivery-option-date">

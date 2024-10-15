@@ -1,4 +1,4 @@
-import { cart,addtocart,loadfromStorage, removecart, totalquantity } from '../scripts/cart.js'
+import { cart,addtocart,loadfromStorage, removecart, totalquantity,updateDeliveryOption } from '../scripts/cart.js'
 describe('test suite : add to cart', ()=>
 {   
     const productId2 = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
@@ -75,6 +75,66 @@ describe('test suite : add to cart', ()=>
         removecart("qwqeqr");
         expect(cart.length).toEqual(1);
         expect(localStorage.setItem).toHaveBeenCalledTimes(1);
-    })
+    });
+    it('update Delivery Options',()=>
+    {
+        
+        spyOn(localStorage, 'getItem').and.callFake(() => {
+            return JSON.stringify([{
+                productId: productId1,
+                quantity: 2,
+                deliveryId :'1'
+            
+                }, {
+                productId: productId2,
+                quantity: 1,
+                deliveryId:'2'
+                }]);
+            });
+        loadfromStorage();
+        updateDeliveryOption(productId1,'2')
+        expect(cart[0].deliveryId).toEqual('2');
+        expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+    });
+    it('update Delivery Options greater than 3',()=>
+        {
+            
+            spyOn(localStorage, 'getItem').and.callFake(() => {
+                return JSON.stringify([{
+                    productId: productId1,
+                    quantity: 2,
+                    deliveryId :'1'
+                
+                    }, {
+                    productId: productId2,
+                    quantity: 1,
+                    deliveryId:'2'
+                    }]);
+                });
+            loadfromStorage();
+            updateDeliveryOption(productId1,'5')
+            
+            expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+        });
+    it('update Delivery Options id that is not in the cart',()=>
+        {
+            
+            spyOn(localStorage, 'getItem').and.callFake(() => {
+                return JSON.stringify([{
+                    productId: productId1,
+                    quantity: 2,
+                    deliveryId :'1'
+                
+                    }, {
+                    productId: productId2,
+                    quantity: 1,
+                    deliveryId:'2'
+                    }]);
+                });
+            loadfromStorage();
+            updateDeliveryOption("hein",'2')
+            
+            expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+        });
 
 })

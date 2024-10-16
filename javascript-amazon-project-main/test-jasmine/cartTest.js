@@ -21,7 +21,7 @@ describe('test suite : add to cart', ()=>
                 {
                     productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
                     quantity: 1,
-                    deliveryId :'1' 
+                    deliveryOptionId :'1' 
                 }
             ]);
         });
@@ -61,12 +61,12 @@ describe('test suite : add to cart', ()=>
         return JSON.stringify([{
             productId: productId1,
             quantity: 2,
-            deliveryId :'1'
+            deliveryOptionId :'1'
         
             }, {
             productId: productId2,
             quantity: 1,
-            deliveryId:'2'
+            deliveryOptionId:'2'
             }]);
         });
         loadfromStorage();
@@ -83,17 +83,17 @@ describe('test suite : add to cart', ()=>
             return JSON.stringify([{
                 productId: productId1,
                 quantity: 2,
-                deliveryId :'1'
+                deliveryOptionId :'1'
             
                 }, {
                 productId: productId2,
                 quantity: 1,
-                deliveryId:'2'
+                deliveryOptionId:'2'
                 }]);
             });
         loadfromStorage();
         updateDeliveryOption(productId1,'2')
-        expect(cart[0].deliveryId).toEqual('2');
+        expect(cart[0].deliveryOptionId).toEqual('2');
         expect(localStorage.setItem).toHaveBeenCalledTimes(1);
     });
     it('update Delivery Options greater than 3',()=>
@@ -103,12 +103,12 @@ describe('test suite : add to cart', ()=>
                 return JSON.stringify([{
                     productId: productId1,
                     quantity: 2,
-                    deliveryId :'1'
+                    deliveryOptionId :'1'
                 
                     }, {
                     productId: productId2,
                     quantity: 1,
-                    deliveryId:'2'
+                    deliveryOptionId:'2'
                     }]);
                 });
             loadfromStorage();
@@ -123,12 +123,12 @@ describe('test suite : add to cart', ()=>
                 return JSON.stringify([{
                     productId: productId1,
                     quantity: 2,
-                    deliveryId :'1'
+                    deliveryOptionId :'1'
                 
                     }, {
                     productId: productId2,
                     quantity: 1,
-                    deliveryId:'2'
+                    deliveryOptionId:'2'
                     }]);
                 });
             loadfromStorage();

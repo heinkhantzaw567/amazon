@@ -1,13 +1,14 @@
-import { cart,totalquantity } from "../cart.js";
+import { cart,totalquantity,emptycart } from "../cart.js";
 import { products } from "../../data/products.js";
 import { deliveryOptions } from "../devliveryoption.js";
 import { formatCurrency } from "../utils/money.js";
+import { addOrder } from "../../data/order.js";
 export function renderPaymentSummary()
 {
     let beforetax =totalprice()+shippingfee()
     let tax =beforetax* 0.10;
-    let after=formatCurrency(beforetax+tax );
-    
+    let after=formatCurrency(beforetax+tax);
+  
     let html ='';
     html=`<div class="payment-summary-title">
             Order Summary
@@ -38,12 +39,41 @@ export function renderPaymentSummary()
             <div class="payment-summary-money-total">$${after}</div>
           </div>
 
-          <button class="place-order-button button-primary">
+          <button class="place-order-button button-primary
+          js-place-order">
             Place your order
           </button>`
 
-    document.querySelector(`.js-payment-summary`).innerHTML =html
-}
+     document.querySelector(`.js-payment-summary`).innerHTML =html
+    console.log(cart)
+    if (cart && cart.length > 0) { 
+      document.querySelector('.js-place-order')
+        .addEventListener('click', async () => {
+          try {
+            const response = await fetch('https://supersimplebackend.dev/orders', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ cart })
+            });
+    
+            const order = await response.json();
+            console.log(cart);
+            addOrder(order);
+    
+          } catch (error) {
+            console.log('Unexpected error. Try again later.');
+          }
+          emptycart();
+          window.location.href = 'orders.html';
+        });
+    } else {
+      console.log('The cart is empty. Cannot place an order.');
+    }
+    
+    }
+    
 function shippingfee()
 {
     let total=0
@@ -52,7 +82,7 @@ function shippingfee()
         let deliveryprice;
         deliveryOptions.forEach((option)=>
         {
-            if (item.deliveryId === option.id )
+            if (item.deliveryOptionId === option.id )
             {
                 deliveryprice = Number(option.priceCent);
             }
@@ -60,6 +90,7 @@ function shippingfee()
         total += deliveryprice;
     })
     return total;
+    
 }
 function totalprice()
 {

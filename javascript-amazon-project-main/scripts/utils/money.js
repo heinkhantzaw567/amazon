@@ -16,6 +16,14 @@ export function formatdate(date)
 {
     return date.format('dddd, MMMM D');
 }
+
+export function datefororder(order)
+{
+    const date = new Date(order);
+    const options = { month: 'long', day: 'numeric' };
+    const month = date.toLocaleDateString(date, options);
+    return month;
+}
 export function skipweekend(date,today)
 {
     let hein=0;

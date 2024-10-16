@@ -21,8 +21,9 @@ export function renderOrderSummary()
         }
         
     });
-    
-    const deliveryOptionsid = item.deliveryId;
+    // console.log(item.deliveryOptionId)
+    const deliveryOptionsid = item.deliveryOptionId;
+    // console.log(deliveryOptionsid);
     let deliveryOption;
     deliveryOptions.forEach ((options) =>
     {
@@ -31,6 +32,7 @@ export function renderOrderSummary()
         deliveryOption =options
       }
     })
+    console.log(deliveryOption);
     Html +=`<div class="cart-item-container  js-cart-item-container js-cart-item-container-${matchingItem.id}">
             <div class="delivery-date">
               Delivery date: ${formatdate (adddate (today, deliveryOption.days))}
@@ -172,7 +174,7 @@ function deliveryHTml(matchingItem,item)
     
     
     let formattedPrice = options.priceCent === 0 ? "Free" : "$"+formatCurrency(options.priceCent);
-    const isChecked = options.id === item.deliveryId ;
+    const isChecked = options.id === item.deliveryOptionId ;
     let days = skipweekend(options.days,today)
     Html +=`<div class="delivery-option js-delivery-option
            js-delivery-option-${matchingItem.id}"

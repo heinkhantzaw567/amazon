@@ -1,6 +1,7 @@
 import { renderOrderSummary } from "../../scripts/checkout/ordersummary.js";
 import { loadfromStorage,cart,productname } from "../../scripts/cart.js";
 import { loadProducts,loadProductsFetch } from "../../data/products.js";
+import { renderPaymentSummary } from "../../scripts/checkout/paymentcheckout.js";
 
 describe('test suit: renderOrderSummary', ()=>
 {
@@ -22,28 +23,33 @@ describe('test suit: renderOrderSummary', ()=>
       </div>
       <div class ="checkout-header-middle-section">
       </div>
+      <div class ="js-hein">
+      </div>
       <div class="js-payment-summary"></div>`;
     spyOn(localStorage, 'setItem');
     spyOn(localStorage, 'getItem').and.callFake(() => {
       return JSON.stringify([{
           productId: productId1,
           quantity: 2,
-          deliveryId :'1'
+          deliveryOptionId :'1'
       
         }, {
           productId: productId2,
           quantity: 1,
-          deliveryId:'2'
+          deliveryOptionId:'2'
         }]);
     });
     loadfromStorage();
     
     renderOrderSummary();
+    renderPaymentSummary();
   });
   afterEach(()=>
   {
     document.querySelector('.order-summary').innerHTML ='';
     document.querySelector('.js-test-container').innerHTML ='';
+    document.querySelector('.js-hein').innerHTML ='';
+    document.querySelector('.js-orders-grid').innerHTML ='';
   })
     it('adds an exisiting,product to cart', ()=>
         {
@@ -81,9 +87,11 @@ describe('test suit: renderOrderSummary', ()=>
         it('update the cart',()=>
         {
           document.querySelector(`.delivery-option-input-${productId1}-${3}`).click();
-          expect(cart[0].deliveryId).toEqual('3');
+          console.log(document.querySelector(`.delivery-option-input-${productId1}-${3}`).click())
+          expect(cart[0].deliveryOptionId).toEqual('3');
           expect(document.querySelector(`.delivery-option-input-${productId1}-${3}`).checked).toBe(true)
           expect(cart.length).toEqual(2);
+          console.log(document.querySelector(`.payment-summary-money-shipping`).innerHTML)
           expect(document.querySelector(`.payment-summary-money-shipping`).innerHTML).toEqual('$14.98');
           expect(document.querySelector(`.payment-summary-money-total`).innerHTML).toEqual('$63.50');
           

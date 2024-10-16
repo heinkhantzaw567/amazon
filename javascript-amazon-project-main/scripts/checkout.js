@@ -18,9 +18,16 @@ import { skipweekend } from './utils/money.js';
 
 async function loadPage()
 {
+    try{
      await loadProductsFetch();
      renderOrderSummary();
      renderPaymentSummary();
+
+    }catch(error)
+    {
+        console.log(error)
+    }
+     
 }
 
 loadPage();

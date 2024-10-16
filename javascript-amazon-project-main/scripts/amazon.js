@@ -41,7 +41,8 @@ products.forEach((value, index)=>{
                   <option value="10">10</option>
                 </select>
               </div>
-    
+              
+              ${value.extraInfoHtml()}
               <div class="product-spacer"></div>
     
               <div class="added-to-cart added-to-cart-${value.id}">

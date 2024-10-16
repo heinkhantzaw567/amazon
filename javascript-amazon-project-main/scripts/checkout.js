@@ -16,11 +16,14 @@ import { skipweekend } from './utils/money.js';
 
 // })
 
-console.log(loadProductsFetch().then(()=>
+async function loadPage()
 {
-    renderOrderSummary();
-    renderPaymentSummary();
-}))
+     await loadProductsFetch();
+     renderOrderSummary();
+     renderPaymentSummary();
+}
+
+loadPage();
 
 
 

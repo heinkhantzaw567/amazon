@@ -4,7 +4,7 @@ import { adddate, formatCurrency,formatdate, skipweekend} from '../utils/money.j
 import { deliveryOptions } from '../devliveryoption.js';
 import { renderPaymentSummary } from './paymentcheckout.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-
+import '../../data/backend-practice.js'
 
 export function renderOrderSummary()
 {

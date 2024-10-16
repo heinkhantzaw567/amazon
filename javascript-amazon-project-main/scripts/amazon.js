@@ -1,7 +1,11 @@
 import{cart,addtocart,totalquantity} from './cart.js';
-import{products } from '../data/products.js';
+import{products,loadproducts } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
-let HTMl ='';
+loadProducts(renderProductGrid);
+
+function renderProductGrid()
+{
+  let HTMl ='';
 products.forEach((value, index)=>{
     HTMl +=
     `<div class="product-container">
@@ -99,3 +103,5 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
   });
 });
 document.querySelector(".cart-quantity").innerHTML = totalquantity();
+}
+
